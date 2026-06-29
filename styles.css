@@ -477,8 +477,8 @@ If your plugin does not need CSS, delete this file.
 	border-radius: 6px;
 	padding: 0.75em 1em;
 	margin: 0;
-	font-family: var(--font-monospace);
-	font-size: var(--font-smaller);
+	font-family: var(--ll-font-family, var(--font-monospace));
+	font-size: var(--ll-font-size, var(--font-smaller));
 	line-height: 1.7;
 	overflow-x: auto;
 }
@@ -579,6 +579,36 @@ If your plugin does not need CSS, delete this file.
 	font-weight: 600;
 }
 
+.ll-room {
+	color: var(--ll-room-color, #c2410c);
+	font-weight: 600;
+}
+
+.ll-inventory {
+	color: var(--ll-inventory-color, #0891b2);
+	font-weight: 600;
+}
+
+.ll-wealth {
+	color: var(--ll-wealth-color, #ca8a04);
+	font-weight: 600;
+	border-bottom: 1px dotted var(--ll-wealth-color, #ca8a04);
+}
+
+.ll-resources-block {
+	color: var(--ll-resources-block-color, #0891b2);
+	font-weight: 700;
+	letter-spacing: 1px;
+	border-bottom: 2px solid var(--ll-resources-block-color, #0891b2);
+}
+
+.ll-dungeon-block {
+	color: var(--ll-dungeon-block-color, #c2410c);
+	font-weight: 700;
+	letter-spacing: 1px;
+	border-bottom: 2px solid var(--ll-dungeon-block-color, #c2410c);
+}
+
 /* ── Dark theme adjustments ───────────────────────────────── */
 
 .theme-dark .ll-action {
@@ -631,10 +661,15 @@ If your plugin does not need CSS, delete this file.
    Uses the same CSS variables set by applyHighlightColors().
    ============================================================ */
 
-/* Force line wrap in Live Preview */
-.ll-ed-line {
-	white-space: pre-wrap !important;
+/* Force line wrap in Live Preview — higher specificity via .cm-editor avoids !important */
+.cm-editor .ll-ed-line {
+	white-space: pre-wrap;
 	word-break: break-word;
+}
+
+.cm-editor .ll-ed-block-line {
+	font-family: var(--ll-font-family, var(--font-monospace));
+	font-size: var(--ll-font-size, inherit);
 }
 
 /* Token symbols at line start */
@@ -721,6 +756,33 @@ If your plugin does not need CSS, delete this file.
 .ll-ed-foe {
 	color: var(--ll-foe-color, #c2410c);
 	font-weight: 600;
+}
+
+.ll-ed-room {
+	color: var(--ll-room-color, #c2410c);
+	font-weight: 600;
+}
+
+.ll-ed-inventory {
+	color: var(--ll-inventory-color, #0891b2);
+	font-weight: 600;
+}
+
+.ll-ed-wealth {
+	color: var(--ll-wealth-color, #ca8a04);
+	font-weight: 600;
+}
+
+.ll-ed-resources-block {
+	color: var(--ll-resources-block-color, #0891b2);
+	font-weight: 700;
+	letter-spacing: 1px;
+}
+
+.ll-ed-dungeon-block {
+	color: var(--ll-dungeon-block-color, #c2410c);
+	font-weight: 700;
+	letter-spacing: 1px;
 }
 
 .ll-ed-dungeon {
@@ -1277,6 +1339,171 @@ If your plugin does not need CSS, delete this file.
 	color: #6b7280;
 }
 
+/* Dungeon Dashboard Styles */
+.ll-room-info {
+	display: flex;
+	flex-direction: column;
+	gap: 2px;
+}
+
+.ll-room-desc {
+	font-size: 0.8rem;
+	color: var(--text-muted);
+	font-style: italic;
+}
+
+.ll-room-statuses {
+	display: flex;
+	gap: 4px;
+	flex-wrap: wrap;
+	margin-top: 4px;
+}
+
+.ll-room-status {
+	font-size: 0.7rem;
+	padding: 1px 6px;
+	border-radius: 4px;
+	background-color: var(--background-modifier-border-faint);
+	color: var(--text-muted);
+}
+
+/* Resource Dashboard Styles */
+.ll-resource-grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+	gap: 12px;
+	margin-top: 12px;
+}
+
+.ll-resource-card {
+	background-color: var(--background-secondary);
+	border: 1px solid var(--divider-color);
+	border-radius: 8px;
+	padding: 12px;
+	display: flex;
+	flex-direction: column;
+	position: relative;
+	overflow: hidden;
+	transition: all 0.2s ease;
+	border-bottom: 3px solid var(--ll-inventory-color, #0891b2);
+}
+
+.ll-resource-card:hover {
+	border-color: var(--interactive-accent);
+	background-color: var(--background-secondary-alt);
+}
+
+.ll-resource-main {
+	display: flex;
+	justify-content: space-between;
+	align-items: flex-start;
+	margin-bottom: 8px;
+}
+
+.ll-resource-info {
+	display: flex;
+	flex-direction: column;
+	gap: 2px;
+	flex: 1;
+}
+
+.ll-resource-name {
+	font-weight: 700;
+	font-size: 0.95em;
+	color: var(--text-normal);
+	line-height: 1.2;
+}
+
+.ll-resource-qty {
+	font-size: 1.8em;
+	font-weight: 800;
+	color: var(--ll-inventory-color, #0891b2);
+	line-height: 1;
+	font-family: var(--font-monospace);
+}
+
+.ll-resource-props {
+	font-size: 0.75em;
+	color: var(--text-muted);
+	font-style: italic;
+	display: flex;
+	flex-wrap: wrap;
+	gap: 6px;
+}
+
+.ll-wealth-container {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 16px;
+	margin-bottom: 16px;
+	padding: 12px 16px;
+	background-color: var(--background-primary);
+	border-radius: 10px;
+	border: 1px solid var(--divider-color);
+	border-left: 5px solid var(--ll-wealth-color, #ca8a04);
+	box-shadow: var(--shadow-s);
+}
+
+.ll-wealth-item {
+	display: flex;
+	flex-direction: column;
+	gap: 2px;
+}
+
+.ll-wealth-label {
+	font-weight: 600;
+	font-size: 0.7em;
+	text-transform: uppercase;
+	letter-spacing: 0.05em;
+	color: var(--text-muted);
+}
+
+.ll-wealth-value {
+	font-weight: 800;
+	font-size: 1.3em;
+	color: var(--ll-wealth-color, #ca8a04);
+	font-family: var(--font-monospace);
+}
+
+/* Compound selectors override .ll-room-status and .ll-thread-status base styles — no !important needed */
+.ll-room-status.ll-status-cleared,
+.ll-thread-status.ll-status-cleared {
+	background-color: rgba(34, 197, 94, 0.15);
+	color: #22c55e;
+}
+
+.ll-room-status.ll-status-active,
+.ll-thread-status.ll-status-active {
+	background-color: rgba(59, 130, 246, 0.15);
+	color: #3b82f6;
+}
+
+.ll-room-status.ll-status-unexplored,
+.ll-thread-status.ll-status-unexplored {
+	background-color: rgba(113, 113, 122, 0.15);
+	color: #71717a;
+}
+
+.ll-room-status.ll-status-looted,
+.ll-thread-status.ll-status-looted {
+	background-color: rgba(202, 138, 4, 0.15);
+	color: #ca8a04;
+}
+
+.ll-room-exits {
+	margin-top: 4px;
+	font-size: 0.75rem;
+}
+
+.ll-exits-label {
+	color: var(--text-faint);
+	font-weight: 600;
+}
+
+.ll-exits-list {
+	color: var(--text-accent);
+}
+
 /* Combat Tracker View Styles */
 .lonelog-combat-container {
 	padding: 1rem;
@@ -1416,7 +1643,7 @@ If your plugin does not need CSS, delete this file.
 }
 
 .lonelog-about-text {
-	font-size: 0.45rem;
+	font-size: 0.9rem;
 	color: var(--text-normal);
 }
 
@@ -1430,7 +1657,7 @@ If your plugin does not need CSS, delete this file.
 .lonelog-about-link {
 	color: var(--text-accent);
 	text-decoration: none;
-	font-size: 0.5rem;
+	font-size: 0.9rem;
 	font-weight: 500;
 }
 
@@ -1441,4 +1668,207 @@ If your plugin does not need CSS, delete this file.
 
 .lonelog-link-separator {
 	color: var(--text-muted);
+}
+
+/* Settings Redesign */
+.lonelog-settings-shell {
+	display: grid;
+	grid-template-columns: 220px minmax(0, 1fr);
+	gap: 24px;
+	align-items: start;
+}
+
+.lonelog-settings-sidebar {
+	position: sticky;
+	top: 0;
+	background: linear-gradient(180deg, var(--background-secondary), var(--background-primary));
+	border: 1px solid var(--background-modifier-border);
+	border-radius: 14px;
+	padding: 16px 14px;
+}
+
+.lonelog-settings-sidebar-title {
+	font-size: 11px;
+	font-weight: 700;
+	letter-spacing: 0.12em;
+	text-transform: uppercase;
+	color: var(--text-muted);
+	margin-bottom: 12px;
+}
+
+.lonelog-settings-nav {
+	display: flex;
+	flex-direction: column;
+	gap: 6px;
+}
+
+.lonelog-settings-nav-item {
+	width: 100%;
+	text-align: left;
+	border: 1px solid transparent;
+	background: transparent;
+	color: var(--text-normal);
+	padding: 10px 12px;
+	border-radius: 10px;
+	cursor: pointer;
+	font-size: 13px;
+	font-weight: 600;
+	transition: background-color 120ms ease, border-color 120ms ease, color 120ms ease, transform 120ms ease;
+}
+
+.lonelog-settings-nav-item:hover {
+	background: var(--background-modifier-hover);
+	border-color: var(--background-modifier-border-hover);
+	transform: translateX(1px);
+}
+
+.lonelog-settings-nav-item.is-active {
+	background: color-mix(in srgb, var(--interactive-accent) 14%, var(--background-primary));
+	border-color: color-mix(in srgb, var(--interactive-accent) 30%, var(--background-modifier-border));
+	color: var(--text-normal);
+}
+
+.lonelog-settings-content {
+	min-width: 0;
+}
+
+.lonelog-settings-panel-heading {
+	margin-bottom: 16px;
+}
+
+.lonelog-settings-panel-heading .setting-item-name {
+	font-size: 28px;
+	line-height: 1.1;
+	letter-spacing: -0.02em;
+}
+
+.lonelog-settings-panel-description {
+	margin-bottom: 18px;
+	max-width: 72ch;
+}
+
+.lonelog-settings-subsection {
+	margin-bottom: 24px;
+	padding: 14px 16px 4px;
+	background: var(--background-secondary);
+	border: 1px solid var(--background-modifier-border);
+	border-radius: 14px;
+}
+
+.lonelog-settings-subsection-heading {
+	padding-top: 0;
+}
+
+.lonelog-settings-subsection-heading .setting-item-name {
+	font-size: 11px;
+	font-weight: 800;
+	letter-spacing: 0.14em;
+	text-transform: uppercase;
+	color: var(--text-muted);
+}
+
+.lonelog-addon-badge {
+	display: inline-flex;
+	align-items: center;
+	margin-left: 8px;
+	padding: 2px 8px;
+	border-radius: 999px;
+	font-size: 10px;
+	font-weight: 700;
+	letter-spacing: 0.06em;
+	text-transform: uppercase;
+	background: var(--background-modifier-border);
+	color: var(--text-muted);
+}
+
+.lonelog-addon-badge.is-active {
+	background: color-mix(in srgb, var(--color-green) 18%, var(--background-primary));
+	color: var(--color-green);
+}
+
+.lonelog-version-badge {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	padding: 8px 12px;
+	border-radius: 999px;
+	background: color-mix(in srgb, var(--interactive-accent) 14%, var(--background-primary));
+	border: 1px solid color-mix(in srgb, var(--interactive-accent) 24%, var(--background-modifier-border));
+	font-family: var(--font-monospace);
+	font-size: 13px;
+	font-weight: 700;
+}
+
+/* Reduced boldness overrides */
+.ll-reduced-boldness .ll-action,
+.ll-reduced-boldness .ll-ed-action,
+.ll-reduced-boldness .ll-question,
+.ll-reduced-boldness .ll-ed-question,
+.ll-reduced-boldness .ll-dice,
+.ll-reduced-boldness .ll-ed-dice,
+.ll-reduced-boldness .ll-consequence,
+.ll-reduced-boldness .ll-ed-consequence,
+.ll-reduced-boldness .ll-result,
+.ll-reduced-boldness .ll-ed-result,
+.ll-reduced-boldness .ll-narrative,
+.ll-reduced-boldness .ll-ed-narrative,
+.ll-reduced-boldness .ll-table,
+.ll-reduced-boldness .ll-ed-table,
+.ll-reduced-boldness .ll-generator,
+.ll-reduced-boldness .ll-ed-generator,
+.ll-reduced-boldness .ll-foe,
+.ll-reduced-boldness .ll-ed-foe,
+.ll-reduced-boldness .ll-room,
+.ll-reduced-boldness .ll-ed-room,
+.ll-reduced-boldness .ll-inventory,
+.ll-reduced-boldness .ll-ed-inventory,
+.ll-reduced-boldness .ll-wealth,
+.ll-reduced-boldness .ll-ed-wealth {
+	font-weight: normal;
+}
+
+.ll-reduced-boldness .ll-tag,
+.ll-reduced-boldness .ll-ed-tag,
+.ll-reduced-boldness .ll-dialogue,
+.ll-reduced-boldness .ll-ed-dialogue {
+	font-weight: normal;
+}
+
+.ll-reduced-boldness .ll-scene,
+.ll-reduced-boldness .ll-ed-scene,
+.ll-reduced-boldness .ll-combat-block,
+.ll-reduced-boldness .ll-ed-combat-block,
+.ll-reduced-boldness .ll-resources-block,
+.ll-reduced-boldness .ll-ed-resources-block,
+.ll-reduced-boldness .ll-dungeon-block,
+.ll-reduced-boldness .ll-ed-dungeon-block,
+.ll-reduced-boldness .ll-ed-dungeon,
+.ll-reduced-boldness .ll-ed-resource {
+	font-weight: 500;
+}
+
+.ll-reduced-boldness .ll-header,
+.ll-reduced-boldness .ll-ed-header,
+.ll-reduced-boldness .ll-round,
+.ll-reduced-boldness .ll-ed-round {
+	font-weight: 600;
+}
+
+@media (max-width: 900px) {
+	.lonelog-settings-shell {
+		grid-template-columns: 1fr;
+	}
+
+	.lonelog-settings-sidebar {
+		position: static;
+	}
+
+	.lonelog-settings-nav {
+		flex-direction: row;
+		flex-wrap: wrap;
+	}
+
+	.lonelog-settings-nav-item {
+		width: auto;
+	}
 }

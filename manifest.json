@@ -1,10 +1,10 @@
 {
 	"id": "lonelog",
 	"name": "Lonelog",
-	"version": "1.4.0",
-	"minAppVersion": "0.15.0",
+	"version": "1.5.5",
+	"minAppVersion": "1.12.7",
 	"description": "Streamline solo TTRPG journaling with Lonelog notation shortcuts and templates.",
-	"author": "Bastion del Dinosaurio",
+	"author": "Snifer (Bastion del Dinosaurio)",
 	"authorUrl": "https://www.youtube.com/@BastiondelDinosaurio",
 	"fundingUrl": "https://ko-fi.com/bastiondeldino",
 	"isDesktopOnly": false
